@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极简生活博客</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 2rem;
+        }
+        .post {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+        .post:hover {
+            transform: translateY(-5px);
+        }
+        .post h2 {
+            color: #2b2d42;
+            margin-bottom: 1rem;
+            border-left: 4px solid #4361ee;
+            padding-left: 1rem;
+        }
+        .post-meta {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .sidebar {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+        .sidebar h3 {
+            color: #2b2d42;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f1f1f1;
+        }
+        .sidebar ul {
+            list-style: none;
+        }
+        .sidebar li {
+            margin-bottom: 0.8rem;
+        }
+        .sidebar a {
+            color: #4361ee;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .sidebar a:hover {
+            color: #3a0ca3;
+            text-decoration: underline;
+        }
+        footer {
+            background: #2b2d42;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>极简生活博客</h1>
+        <p>少即是多，寻找生活的本质</p >
+    </header>
+
+    <div class="container">
+        <main>
+            <article class="post">
+                <h2>极简主义：重新定义你的生活空间</h2>
+                <div class="post-meta">发布于 2024-05-20 | 阅读量：1289</div>
+                <p>在这个物质过剩的时代，我们被无尽的物品和信息包围。极简主义不是抛弃一切，而是保留真正重要的东西，为生活腾出空间和精力。</p >
+                <p>尝试从整理衣柜开始：扔掉一年没穿的衣服，留下舒适且常穿的单品，你会发现选择变得简单，生活也更轻松。</p >
+                <p>真正的自由，源于对欲望的克制和对本质的追求。</p >
+            </article>
+
+            <article class="post">
+                <h2>数字极简：摆脱手机依赖的3个实用技巧</h2>
+                <div class="post-meta">发布于 2024-05-15 | 阅读量：956</div>
+                <p>每天花在手机上的时间超过4小时？试试这3个方法：</p >
+                <p>1. 关闭非必要APP通知，只保留工作和重要联系人提醒；</p >
+                <p>2. 设定"无手机时段"，比如睡前1小时和早餐时间；</p >
+                <p>3. 将社交APP移到第二屏，减少无意识打开的频率。</p >
+                <p>数字极简能让你重新掌控时间，专注于真实的生活和人际关系。</p >
+            </article>
+        </main>
+
+        <aside class="sidebar">
+            <h3>热门分类</h3>
+            <ul>
+                <li>< a href=" ">生活整理</ a></li>
+                <li>< a href="#">数字极简</ a></li>
+                <li>< a href="#">心灵成长</ a></li>
+                <li>< a href="#">可持续生活</ a></li>
+            </ul>
+
+            <h3>关于博主</h3>
+            <p>专注极简生活实践5年，分享实用技巧和感悟，愿与你一起打造简单而丰盈的人生。</p >
+        </aside>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 极简生活博客 | 简单生活，丰盈内心</p >
+    </footer>
+</body>
+</html>
