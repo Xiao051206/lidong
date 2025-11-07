@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>独属于王岚的小域</title>
+    <!-- 引入加密库 -->
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.2.0/crypto-js.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -30,6 +32,10 @@
             display: grid;
             grid-template-columns: 3fr 1fr;
             gap: 2rem;
+        }
+        /* 新增：默认隐藏内容容器 */
+        #content {
+            display: none;
         }
         .post {
             background: white;
@@ -94,43 +100,104 @@
                 grid-template-columns: 1fr;
             }
         }
+        /* 新增：密码错误提示样式 */
+        #error {
+            color: #dc3545;
+            text-align: center;
+            margin: 1rem 0;
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <h1>小屋持续更新中</h1>
-        <p>能力有限做的有点简陋，希望你不会嫌弃，嘿嘿</p>
-    </header>
+    <div id="error">密码错误，请重试！</div>
+    <div id="content">
+        <header>
+            <h1>小屋持续更新中</h1>
+            <p>能力有限做的有点简陋，希望你不会嫌弃，嘿嘿</p>
+        </header>
 
-    <div class="container">
-        <main>
-            <article class="post">
-                <h2>今日立冬，天气渐凉，注意保暖哦</h2>
-                <div class="post-meta">唠叨多了，有时也会怕你嫌我烦</div>
-                <p>早睡早起好身体！吃饱吃好，锻炼身体！</p>
-                <p>放下道德素质，，享受快乐人生</p>
-                <p>来日方长，别着急，我陪着你呢</p>
-            </article>
+        <div class="container">
+            <main>
+                <article class="post">
+                    <h2>今日立冬，天气渐凉，注意保暖哦</h2>
+                    <div class="post-meta">唠叨多了，有时也会怕你嫌我烦</div>
+                    <p>早睡早起好身体！吃饱吃好，锻炼身体！</p>
+                    <p>放下道德素质，，享受快乐人生</p>
+                    <p>来日方长，别着急，我陪着你呢</p>
+                </article>
 
-            <article class="post">
-                <h2>小小的文青，嘿嘿</h2>
-                <div class="post-meta">心如花木，向阳而生</div>
-                <p>愿我如星君如月，夜夜流光相皎洁。月暂晦，星常明。留明待月复，三五共盈盈。</p>
-                <p>山有木兮木有枝，心悦卿兮卿可知。</p>
-                <p>昨夜星辰昨夜风，画楼西畔桂堂东。</p>
-                <p>有种梦到哪句说哪句的感觉，打完自己都有点不好意思了，嘿嘿</p>
-            </article>
-            
-        </main>
+                <article class="post">
+                    <h2>小小的文青，嘿嘿</h2>
+                    <div class="post-meta">心如花木，向阳而生</div>
+                    <p>愿我如星君如月，夜夜流光相皎洁。月暂晦，星常明。留明待月复，三五共盈盈。</p>
+                    <p>山有木兮木有枝，心悦卿兮卿可知。</p>
+                    <p>昨夜星辰昨夜风，画楼西畔桂堂东。</p>
+                    <p>有种梦到哪句说哪句的感觉，打完自己都有点不好意思了，嘿嘿</p>
+                </article>
+            </main>
 
-             <h3>致你</h3>
-            <p>总有些人，一眼看到就会心生好感，道理是讲不通的</p>
-        </aside>
+            <aside class="sidebar">
+                <h3>致你</h3>
+                <p>总有些人，一眼看到就会心生好感，道理是讲不通的</p>
+            </aside>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 冬暖念安</p>
+        </footer>
     </div>
 
-    <footer>
-        <p>&copy; 2025 冬暖念安</p>
-    </footer>
+    <script>
+        // 预设密码的 SHA256 哈希值（需替换为你的密码哈希）
+        // 生成方法：在浏览器控制台运行 CryptoJS.SHA256("你的密码").toString()
+        const correctHash = "lan040204";
+        
+        // 检查本地存储的验证状态
+        function checkLoginStatus() {
+            const isVerified = localStorage.getItem("isVerified");
+            const expireTime = localStorage.getItem("expireTime");
+            if (isVerified === "true" && new Date().getTime() < expireTime) {
+                document.getElementById("content").style.display = "block";
+                return true;
+            }
+            return false;
+        }
+
+        // 密码验证逻辑
+        function verifyPassword() {
+            const userInput = prompt("请输入密码访问小屋：");
+            if (!userInput) {
+                document.getElementById("error").style.display = "block";
+                return;
+            }
+            
+            const inputHash = CryptoJS.SHA256(userInput).toString();
+            
+            if (inputHash === correctHash) {
+                // 验证成功，保存状态（有效期1小时）
+                const expireTime = new Date().getTime() + 3600000;
+                localStorage.setItem("isVerified", "true");
+                localStorage.setItem("expireTime", expireTime);
+                document.getElementById("content").style.display = "block";
+                document.getElementById("error").style.display = "none";
+            } else {
+                document.getElementById("error").style.display = "block";
+                // 递归重试（最多3次）
+                if (localStorage.getItem("retryCount") < 3) {
+                    localStorage.setItem("retryCount", parseInt(localStorage.getItem("retryCount") || 0) + 1);
+                    verifyPassword();
+                } else {
+                    alert("尝试次数过多，即将关闭页面");
+                    window.close();
+                }
+            }
+        }
+
+        // 初始化验证
+        if (!checkLoginStatus()) {
+            verifyPassword();
+        }
+    </script>
 </body>
 </html>
-
