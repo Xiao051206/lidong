@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>独属于王岚的小域</title>
-    <!-- 更换为更稳定的 CryptoJS CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -32,16 +30,6 @@
             display: grid;
             grid-template-columns: 3fr 1fr;
             gap: 2rem;
-        }
-        /* 密码保护相关样式 */
-        #content {
-            display: none;
-        }
-        #error {
-            color: #dc3545;
-            text-align: center;
-            margin: 5rem 0;
-            font-size: 1.2rem;
         }
         .post {
             background: white;
@@ -109,114 +97,39 @@
     </style>
 </head>
 <body>
-    <div id="error">密码错误，请重试！</div>
-    <div id="content">
-        <header>
-            <h1>小屋持续更新中</h1>
-            <p>能力有限做的有点简陋，希望你不会嫌弃，嘿嘿</p>
-        </header>
+    <header>
+        <h1>小屋持续更新中</h1>
+        <p>能力有限做的有点简陋，希望你不会嫌弃，嘿嘿</p>
+    </header>
 
-        <div class="container">
-            <main>
-                <article class="post">
-                    <h2>今日立冬，天气渐凉，注意保暖哦</h2>
-                    <div class="post-meta">唠叨多了，有时也会怕你嫌我烦</div>
-                    <p>早睡早起好身体！吃饱吃好，锻炼身体！</p>
-                    <p>放下道德素质，享受快乐人生</p>
-                    <p>来日方长，别着急，我陪着你呢</p>
-                </article>
+    <div class="container">
+        <main>
+            <article class="post">
+                <h2>今日立冬，天气渐凉，注意保暖哦</h2>
+                <div class="post-meta">唠叨多了，有时也会怕你嫌我烦</div>
+                <p>早睡早起好身体！吃饱吃好，锻炼身体！</p>
+                <p>放下道德素质，，享受快乐人生</p>
+                <p>来日方长，别着急，我陪着你呢</p>
+            </article>
 
-                <article class="post">
-                    <h2>小小的文青，嘿嘿</h2>
-                    <div class="post-meta">心如花木，向阳而生</div>
-                    <p>愿我如星君如月，夜夜流光相皎洁。月暂晦，星常明。留明待月复，三五共盈盈。</p>
-                    <p>山有木兮木有枝，心悦卿兮卿可知。</p>
-                    <p>昨夜星辰昨夜风，画楼西畔桂堂东。</p>
-                    <p>有种梦到哪句说哪句的感觉，打完自己都有点不好意思了，嘿嘿</p>
-                </article>
-            </main>
+            <article class="post">
+                <h2>小小的文青，嘿嘿</h2>
+                <div class="post-meta">心如花木，向阳而生</div>
+                <p>愿我如星君如月，夜夜流光相皎洁。月暂晦，星常明。留明待月复，三五共盈盈。</p>
+                <p>山有木兮木有枝，心悦卿兮卿可知。</p>
+                <p>昨夜星辰昨夜风，画楼西畔桂堂东。</p>
+                <p>有种梦到哪句说哪句的感觉，打完自己都有点不好意思了，嘿嘿</p>
+            </article>
+            
+        </main>
 
-            <aside class="sidebar">
-                <h3>致你</h3>
-                <p>总有些人，一眼看到就会心生好感，道理是讲不通的</p>
-            </aside>
-        </div>
-
-        <footer>
-            <p>&copy; 2025 冬暖念安</p>
-        </footer>
+             <h3>致你</h3>
+            <p>总有些人，一眼看到就会心生好感，道理是讲不通的</p>
+        </aside>
     </div>
 
-    <!-- 调整：将脚本放在页面底部，确保 CryptoJS 加载完成后再执行 -->
-    <script>
-        // 固定密码 lan040204 对应的 SHA256 哈希值（重新验证正确）
-        const correctHash = "e813c60f292993f58593637b74c4f1f07a35326e0762732936360d29d431b6d";
-
-        // 检查本地存储的验证状态（1小时内无需重复登录）
-        function checkLoginStatus() {
-            const isVerified = localStorage.getItem("isVerified");
-            const expireTime = localStorage.getItem("expireTime");
-            if (isVerified === "true" && new Date().getTime() < expireTime) {
-                document.getElementById("content").style.display = "block";
-                document.getElementById("error").style.display = "none";
-                return true;
-            }
-            return false;
-        }
-
-        // 密码验证逻辑（最多3次重试）
-        function verifyPassword() {
-            try {
-                const userInput = prompt("请输入密码访问小屋：");
-                if (!userInput) { // 取消输入
-                    document.getElementById("error").style.display = "block";
-                    return;
-                }
-                
-                // 计算输入密码的哈希值
-                const inputHash = CryptoJS.SHA256(userInput).toString();
-                
-                if (inputHash === correctHash) {
-                    // 验证成功，保存状态1小时
-                    const expireTime = new Date().getTime() + 3600000;
-                    localStorage.setItem("isVerified", "true");
-                    localStorage.setItem("expireTime", expireTime);
-                    localStorage.removeItem("retryCount"); // 重置重试次数
-                    document.getElementById("content").style.display = "block";
-                    document.getElementById("error").style.display = "none";
-                } else {
-                    const retryCount = parseInt(localStorage.getItem("retryCount") || 0);
-                    if (retryCount < 2) { // 还能重试（0、1、2共3次）
-                        localStorage.setItem("retryCount", retryCount + 1);
-                        document.getElementById("error").style.display = "block";
-                        verifyPassword();
-                    } else { // 重试次数耗尽
-                        localStorage.removeItem("retryCount");
-                        document.getElementById("error").innerText = "尝试次数过多，请稍后再试！";
-                        document.getElementById("error").style.display = "block";
-                        setTimeout(() => window.close(), 3000);
-                    }
-                }
-            } catch (err) {
-                // 若 CryptoJS 仍加载失败，降级为明文验证（应急方案）
-                const userInput = prompt("密码加载失败，请输入密码访问：");
-                if (userInput === "lan040204") {
-                    document.getElementById("content").style.display = "block";
-                    document.getElementById("error").style.display = "none";
-                } else {
-                    alert("密码错误！");
-                    verifyPassword();
-                }
-            }
-        }
-
-        // 初始化验证流程（确保页面加载完成）
-        window.onload = function() {
-            if (!checkLoginStatus()) {
-                document.getElementById("error").style.display = "none";
-                verifyPassword();
-            }
-        };
-    </script>
+    <footer>
+        <p>&copy; 2025 冬暖念安</p>
+    </footer>
 </body>
 </html>
